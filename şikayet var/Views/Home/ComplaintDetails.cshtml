@@ -1,0 +1,40 @@
+﻿@model ComplaintDetailsViewModel
+
+<h2>@Model.Title</h2>
+<p>@Model.Description</p>
+<p><strong>Tarih:</strong> @Model.CreatedAt</p>
+
+@if (Model.ImagePath != null && Model.ImagePath.Any())
+{
+    <h3>Görseller</h3>
+    <div>
+        @foreach (var img in ViewBag.Model)
+        {
+            <img src="@ViewBag.ImagePath" alt="Şikayet Resmi" width="200" />
+        }
+    </div>
+}
+
+<h3>Yorumlar</h3>
+@if (Model.Comments.Any())
+{
+    <ul>
+        @foreach (var comment in Model.Comments)
+        {
+            <li>@comment.Content - <small>@comment.CreatedAt</small></li>
+        }
+    </ul>
+}
+else
+{
+    <p>Henüz yorum yok.</p>
+}
+
+<h3>Yorum Ekle</h3>
+<form asp-action="AddComment" method="post">
+    <input type="hidden" name="complaintId" value="@Model.Id" />
+    <textarea name="content" required></textarea>
+    <button type="submit">Gönder</button>
+</form>
+
+<a href="@Url.Action("Index")">Ana Sayfaya Dön</a>

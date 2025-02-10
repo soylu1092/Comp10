@@ -1,0 +1,49 @@
+﻿@model List<Complaints>
+
+<h2>Şikayetler</h2>
+
+<form method="get" action="@Url.Action("Search", "Home")" class="mb-3">
+    <input type="text" name="query" placeholder="Şikayet ara..." required />
+    <button type="submit" class="btn btn-primary">Ara</button>
+</form>
+
+
+@foreach (var complaint in Model)
+{
+    <div class="card mb-3">
+        <img src="@complaint.ImagePath" class="card-img-top" alt="Şikayet Resmi">
+        <div class="card-body">
+            <h3 class="card-title">@complaint.Title</h3>
+            <p class="card-text">@complaint.Description</p>
+
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comments-@complaint.Id">
+                Yorumları Göster
+            </button>
+
+            <div class="collapse mt-2" id="comments-@complaint.Id">
+                <h4>Yorumlar:</h4>
+                <h4 class="card-title">
+                    @complaint.Title
+                    <span class="badge bg-secondary">@complaint.CommentCount Yorum</span>
+                </h4>
+
+                @if (complaint.Comments.Any())
+                {
+                    <ul class="list-group">
+                        @foreach (var comment in complaint.Comments)
+                        {
+                            <li class="list-group-item">
+                                <strong>@comment.CreatedAt.ToString("g")</strong> <br>
+                                @comment.Content
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>Henüz yorum yapılmamış.</p>
+                }
+            </div>
+        </div>
+    </div>
+}

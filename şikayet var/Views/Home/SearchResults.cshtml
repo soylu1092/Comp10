@@ -1,0 +1,21 @@
+﻿@model List<Complaints>
+
+<h2>Arama Sonuçları</h2>
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var complaint in Model)
+        {
+            <li>
+                <a href="@Url.Action("ComplaintDetails", new { id = complaint.Id })">@complaint.Title</a>
+                - @complaint.CreatedAt
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Sonuç bulunamadı.</p>
+}
+
+<a href="@Url.Action("Index")">Ana Sayfaya Dön</a>
